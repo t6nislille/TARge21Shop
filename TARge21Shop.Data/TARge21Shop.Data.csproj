@@ -22,5 +22,5 @@
   <ItemGroup>
     <ProjectReference Include="..\TARge21Shop.Core\TARge21Shop.Core.csproj" />
   </ItemGroup>
-
+<!---->
 </Project>
