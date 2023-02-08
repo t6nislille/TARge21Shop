@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TARge21Shop.Models;
 
 namespace TARge21Shop.Models.Car
 {
@@ -16,5 +17,10 @@ namespace TARge21Shop.Models.Car
         public string FuelType { get; set; }
         public decimal FuelConsumption { get; set; }
         public DateTime ProductionDate { get; set; }
+        public List<ImageViewModel> Image { get; set; } = new List<ImageViewModel>();
+
+        // only in database
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
     }
 }

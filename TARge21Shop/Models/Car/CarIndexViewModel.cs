@@ -16,5 +16,9 @@ namespace TARge21Shop.Models.Car
         public string FuelType { get; set; }
         public decimal FuelConsumption { get; set; }
         public DateTime ProductionDate { get; set; }
+
+        // only in database
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
     }
 }

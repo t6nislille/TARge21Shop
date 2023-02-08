@@ -1,51 +1,63 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.FileIO;
+using System.Xml.Linq;
+using TARge21Shop.ApplicationServices.Services;
 using TARge21Shop.Core.Dto;
 using TARge21Shop.Core.ServiceInterface;
 using TARge21Shop.Data;
 using TARge21Shop.Models.Car;
+using TARge21Shop.Models;
+using TARge21Shop.Core.Domain.Car;
 
 namespace TARge21Shop.Controllers
 {
-    public class CarController : Controller
+    public class CarsController : Controller
     {
         private readonly TARge21ShopContext _context;
-        private readonly ICarServices _carServices;
+        private readonly ICarServices _carsServices;
+        private readonly IFilesServices _filesServices;
 
-        public CarController
+        public CarsController
             (
-                TARge21ShopContext context,
-                ICarServices carServices
+            TARge21ShopContext context,
+            ICarServices carsServices,
+            IFilesServices filesServices
             )
         {
             _context = context;
-            _carServices = carServices;
+            _carsServices = carsServices;
+            _filesServices = filesServices;
         }
+
         public IActionResult Index()
         {
             var result = _context.Cars
-                .OrderByDescending(y => y.ProductionDate)
+                .OrderByDescending(y => y.CreatedAt)
                 .Select(x => new CarIndexViewModel
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Type = x.Type,
                     EnginePower = x.EnginePower,
                     Mileage = x.Mileage,
+                    FuelType = x.FuelType,
+                    ProductionDate = x.ProductionDate,
+
                 });
 
             return View(result);
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult Create()
         {
-            CarEditViewModel car = new CarEditViewModel();
+            CarCreateUpdateViewModel car = new CarCreateUpdateViewModel();
 
-            return View("Edit", car);
+            return View("CreateUpdate", car);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(CarEditViewModel vm)
+        public async Task<IActionResult> Create(CarCreateUpdateViewModel vm)
         {
             var dto = new CarDto()
             {
@@ -60,11 +72,102 @@ namespace TARge21Shop.Controllers
                 Mileage = vm.Mileage,
                 FuelType = vm.FuelType,
                 FuelConsumption = vm.FuelConsumption,
-                ProductionDate = vm.ProductionDate
-
+                ProductionDate = vm.ProductionDate,
+                CreatedAt = vm.CreatedAt,
+                ModifiedAt = vm.ModifiedAt,
+                Files = vm.Files,
+                Image = vm.Image.Select(x => new FileToDatabaseDto
+                {
+                    Id = x.ImageId,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
+                    CarId = x.CarId,
+                }).ToArray()
             };
 
-            var result = await _carServices.Add(dto);
+            var result = await _carsServices.Create(dto);
+
+            if (result is null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index), vm);
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(Guid id)
+        {
+            var car = await _carsServices.GetAsync(id);
+
+            if (car is null)
+            {
+                return NotFound();
+            }
+
+            var photos = await _context.FileToDatabases
+                .Where(x => x.CarId == id)
+                .Select(y => new ImageViewModel
+                {
+                    CarId = y.CarId,
+                    ImageId = y.Id,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+
+            var vm = new CarCreateUpdateViewModel();
+
+            vm.Id = car.Id;
+            vm.Name = car.Name;
+            vm.Type = car.Type;
+            vm.EnginePower = car.EnginePower;
+            vm.Weight = car.Weight;
+            vm.Lenght = car.Lenght;
+            vm.Width = car.Width;
+            vm.MaxSpeed = car.MaxSpeed;
+            vm.Mileage = car.Mileage;
+            vm.FuelType = car.FuelType;
+            vm.FuelConsumption = car.FuelConsumption;
+            vm.ProductionDate = car.ProductionDate;
+            vm.CreatedAt = car.CreatedAt;
+            vm.ModifiedAt = car.ModifiedAt;
+            vm.Image.AddRange(photos);
+
+            return View("CreateUpdate", vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(CarCreateUpdateViewModel vm)
+        {
+            var dto = new CarDto()
+            {
+                Id = vm.Id,
+                Name = vm.Name,
+                Type = vm.Type,
+                EnginePower = vm.EnginePower,
+                Weight = vm.Weight,
+                Lenght = vm.Lenght,
+                Width = vm.Width,
+                MaxSpeed = vm.MaxSpeed,
+                Mileage = vm.Mileage,
+                FuelType = vm.FuelType,
+                FuelConsumption = vm.FuelConsumption,
+                ProductionDate = vm.ProductionDate,
+                CreatedAt = vm.CreatedAt,
+                 ModifiedAt = vm.ModifiedAt,
+                 Files = vm.Files,
+                Image = vm.Image.Select(x => new FileToDatabaseDto
+                {
+                    Id = x.ImageId,
+                    ImageData = x.ImageData,
+                    ImageTitle = x.ImageTitle,
+                    CarId = x.CarId,
+                }).ToArray()
+            };
+
+            var result = await _carsServices.Update(dto);
 
             if (result is null)
             {
@@ -75,66 +178,91 @@ namespace TARge21Shop.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            var car = await _carServices.GetUpdate(id);
+            var car = await _carsServices.GetAsync(id);
+            if (car is null)
+            {
+                return NotFound();
+            }
+            var photos = await _context.FileToDatabases
+                .Where(x => x.CarId == id)
+                .Select(y => new ImageViewModel
+                {
+                    CarId = y.Id,
+                    ImageId = y.Id,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+
+            var vm = new CarDetailsViewModel();
+
+            vm.Id = car.Id;
+            vm.Name = car.Name;
+            vm.Type = car.Type;
+            vm.EnginePower = car.EnginePower;
+            vm.Weight = car.Weight;
+            vm.Lenght = car.Lenght;
+            vm.Width = car.Width;
+            vm.MaxSpeed = car.MaxSpeed;
+            vm.Mileage = car.Mileage;
+            vm.FuelType = car.FuelType;
+            vm.FuelConsumption = car.FuelConsumption;
+            vm.ProductionDate = car.ProductionDate;
+            vm.CreatedAt = car.CreatedAt;
+            vm.ModifiedAt = car.ModifiedAt;
+            vm.Image.AddRange(photos);
+
+            return View(vm);
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var car = await _carsServices.GetAsync(id);
             if (car is null)
             {
                 return NotFound();
             }
 
-            var vm = new CarEditViewModel()
-            {
-                Id = car.Id,
-                Name = car.Name,
-                Type = car.Type,
-                EnginePower = car.EnginePower,
-                Weight = car.Weight,
-                Lenght = car.Lenght,
-                Width = car.Width,
-                MaxSpeed = car.MaxSpeed,
-                Mileage = car.Mileage,
-                FuelType = car.FuelType,
-                FuelConsumption = car.FuelConsumption,
-                ProductionDate = car.ProductionDate
-            };
+            var photos = await _context.FileToDatabases
+                .Where(x => x.CarId == id)
+                .Select(y => new ImageViewModel
+                {
+                    CarId = y.Id,
+                    ImageId = y.Id,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+
+            var vm = new CarDeleteViewModel();
+
+            vm.Id = car.Id;
+            vm.Name = car.Name;
+            vm.Type = car.Type;
+            vm.EnginePower = car.EnginePower;
+            vm.Weight = car.Weight;
+            vm.Lenght = car.Lenght;
+            vm.Width = car.Width;
+            vm.MaxSpeed = car.MaxSpeed;
+            vm.Mileage = car.Mileage;
+            vm.FuelType = car.FuelType;
+            vm.FuelConsumption = car.FuelConsumption;
+            vm.ProductionDate = car.ProductionDate;
+            vm.CreatedAt = car.CreatedAt;
+            vm.ModifiedAt = car.ModifiedAt;
+            vm.Image.AddRange(photos);
 
             return View(vm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(CarEditViewModel vm)
-        {
-            var dto = new CarDto()
-            {
-                Id = vm.Id,
-                Name = vm.Name,
-                Type = vm.Type,
-                EnginePower = vm.EnginePower,
-                Weight = vm.Weight,
-                Lenght = vm.Lenght,
-                Width = vm.Width,
-                MaxSpeed = vm.MaxSpeed,
-                Mileage = vm.Mileage,
-                FuelType = vm.FuelType,
-                FuelConsumption = vm.FuelConsumption,
-                ProductionDate = vm.ProductionDate
-            };
-
-            var result = await _carServices.Update(dto);
-
-            if (result is null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            return RedirectToAction(nameof(Index), vm);
-        }
-
-        [HttpPost]
         public async Task<IActionResult> DeleteConfirmation(Guid id)
         {
-            var carId = await _carServices.Delete(id);
+            var carId = await _carsServices.Delete(id);
 
             if (carId is null)
             {
@@ -144,59 +272,22 @@ namespace TARge21Shop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Details(Guid id)
+        [HttpPost]
+        public async Task<IActionResult> RemoveImage(ImageViewModel file)
         {
-            var car = await _carServices.GetAsync(id);
-            if (car is null)
+            var dto = new FileToDatabaseDto()
             {
-                return NotFound();
-            }
-
-            var vm = new CarDetailsViewModel()
-            {
-                Id = car.Id,
-                Name = car.Name,
-                Type = car.Type,
-                EnginePower = car.EnginePower,
-                Weight = car.Weight,
-                Lenght = car.Lenght,
-                Width = car.Width,
-                MaxSpeed = car.MaxSpeed,
-                Mileage = car.Mileage,
-                FuelType = car.FuelType,
-                FuelConsumption = car.FuelConsumption,
-                ProductionDate = car.ProductionDate
+                Id = file.ImageId
             };
 
-            return View(vm);
-        }
+            var image = await _filesServices.RemoveImage(dto);
 
-        [HttpGet]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var car = await _carServices.GetAsync(id);
-            if (car is null)
+            if (image is null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
-            var vm = new CarDeleteViewModel()
-            {
-                Id = car.Id,
-                Name = car.Name,
-                Type = car.Type,
-                EnginePower = car.EnginePower,
-                Weight = car.Weight,
-                Lenght = car.Lenght,
-                Width = car.Width,
-                MaxSpeed = car.MaxSpeed,
-                Mileage = car.Mileage,
-                FuelType = car.FuelType,
-                FuelConsumption = car.FuelConsumption,
-                ProductionDate = car.ProductionDate
-            };
 
-            return View(vm);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
