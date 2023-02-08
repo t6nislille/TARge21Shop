@@ -2,14 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\TARge21Shop",
-    "\\TARge21Shop.Core",
-    "\\TARge21Shop.Data",
-    "\\TARge21Shop\\Controllers",
-    "\\TARge21Shop\\Models",
-    "\\TARge21Shop\\Models\\Spaceship",
-    "\\TARge21Shop\\Views",
-    "\\TARge21Shop\\Views\\Shared",
-    "\\TARge21Shop\\Views\\Spaceships"
+    "\\TARge21Shop.ApplicationServices"
   ],
   "SelectedNode": "\\TARge21Shop.sln",
   "PreviewInSolutionExplorer": false
