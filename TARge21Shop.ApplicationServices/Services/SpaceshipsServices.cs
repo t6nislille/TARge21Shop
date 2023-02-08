@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TARge21Shop.Core.Domain.Spaceship;
+using TARge21Shop.Core.Domain;
 using TARge21Shop.Core.Dto;
 using TARge21Shop.Core.ServiceInterface;
 using TARge21Shop.Data;
@@ -14,40 +9,49 @@ namespace TARge21Shop.ApplicationServices.Services
     public class SpaceshipsServices : ISpaceshipsServices
     {
         private readonly TARge21ShopContext _context;
+        private readonly IFilesServices _files;
 
         public SpaceshipsServices
             (
-                TARge21ShopContext context
+                TARge21ShopContext context,
+                IFilesServices files
             )
         {
             _context = context;
+            _files = files;
         }
 
 
-        public async Task<Spaceship> Add(SpaceshipDto dto)
+        public async Task<Spaceship> Create(SpaceshipDto dto)
         {
-            var domain = new Spaceship()
-            {
-                Id = Guid.NewGuid(),
-                Name = dto.Name,
-                Type = dto.Type,
-                Crew = dto.Crew,
-                Passengers = dto.Passengers,
-                CargoWeight = dto.CargoWeight,
-                FullTripsCount = dto.FullTripsCount,
-                MaintenanceCount = dto.MaintenanceCount,
-                LastMaintenance = dto.LastMaintenance,
-                EnginePower = dto.EnginePower,
-                MaidenLaunch = dto.MaidenLaunch,
-                BuiltDate = dto.BuiltDate,
-                CreatedAt = DateTime.Now,
-                ModifiedAt = DateTime.Now,
-            };
+            Spaceship spaceship = new Spaceship();
+            FileToDatabase file = new FileToDatabase();
 
-            await _context.Spaceships.AddAsync(domain);
+            spaceship.Id = Guid.NewGuid();
+            spaceship.Name = dto.Name;
+            spaceship.Type = dto.Type;
+            spaceship.Crew = dto.Crew;
+            spaceship.Passengers = dto.Passengers;
+            spaceship.CargoWeight = dto.CargoWeight;
+            spaceship.FullTripsCount = dto.FullTripsCount;
+            spaceship.MaintenanceCount = dto.MaintenanceCount;
+            spaceship.LastMaintenance = dto.LastMaintenance;
+            spaceship.EnginePower = dto.EnginePower;
+            spaceship.MaidenLaunch = dto.MaidenLaunch;
+            spaceship.BuiltDate = dto.BuiltDate;
+            spaceship.CreatedAt = DateTime.Now;
+            spaceship.ModifiedAt = DateTime.Now;
+
+            if (dto.Files != null)
+            {
+                _files.UploadFilesToDatabase(dto, spaceship);
+            }
+
+
+            await _context.Spaceships.AddAsync(spaceship);
             await _context.SaveChangesAsync();
 
-            return domain;
+            return spaceship;
         }
 
 
@@ -71,21 +75,46 @@ namespace TARge21Shop.ApplicationServices.Services
                 ModifiedAt = DateTime.Now,
             };
 
+            if (dto.Files != null)
+            {
+                _files.UploadFilesToDatabase(dto, domain);
+            }
+
             _context.Spaceships.Update(domain);
             await _context.SaveChangesAsync();
 
             return domain;
         }
 
-        public async Task<Spaceship> GetUpdate(Guid id)
+
+        public async Task<Spaceship> Delete(Guid id)
+        {
+            var spaceshipId = await _context.Spaceships
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            var images = await _context.FileToDatabases
+                .Where(x => x.SpaceshipId == id)
+                .Select(y => new FileToDatabaseDto
+                {
+                    Id = y.Id,
+                    ImageTitle = y.ImageTitle,
+                    SpaceshipId = y.SpaceshipId,
+                })
+                .ToArrayAsync();
+
+            await _files.RemoveImagesFromDatabase(images);
+            _context.Spaceships.Remove(spaceshipId);
+            await _context.SaveChangesAsync();
+
+            return spaceshipId;
+        }
+
+        public async Task<Spaceship> GetAsync(Guid id)
         {
             var result = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return result;
         }
-
-
-        
     }
 }

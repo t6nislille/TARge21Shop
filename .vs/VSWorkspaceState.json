@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\TARge21Shop-master",
-    "\\TARge21Shop-master\\TARge21Shop",
-    "\\TARge21Shop-master\\TARge21Shop\\TARge21Shop",
-    "\\TARge21Shop-master\\TARge21Shop\\TARge21Shop.ApplicationServices",
-    "\\TARge21Shop-master\\TARge21Shop\\TARge21Shop\\Controllers",
-    "\\TARge21Shop-master\\TARge21Shop\\TARge21Shop\\Models",
-    "\\TARge21Shop-master\\TARge21Shop\\TARge21Shop\\Models\\Spaceship",
-    "\\TARge21Shop-master\\TARge21Shop\\TARge21Shop\\Views",
-    "\\TARge21Shop-master\\TARge21Shop\\TARge21Shop\\Views\\Spaceships"
+    "\\TARge21Shop",
+    "\\TARge21Shop.Core",
+    "\\TARge21Shop.Data",
+    "\\TARge21Shop\\Controllers",
+    "\\TARge21Shop\\Models",
+    "\\TARge21Shop\\Models\\Spaceship",
+    "\\TARge21Shop\\Views",
+    "\\TARge21Shop\\Views\\Shared",
+    "\\TARge21Shop\\Views\\Spaceships"
   ],
-  "SelectedNode": "\\TARge21Shop-master\\TARge21Shop\\TARge21Shop\\Views\\Spaceships\\Edit.cshtml",
+  "SelectedNode": "\\TARge21Shop.sln",
   "PreviewInSolutionExplorer": false
 }

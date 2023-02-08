@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TARge21Shop.Core.Domain.Spaceship;
+using TARge21Shop.Core.Domain;
 
 namespace TARge21Shop.Data
 {
@@ -9,6 +9,7 @@ namespace TARge21Shop.Data
         : base(options) { }
 
         public DbSet<Spaceship> Spaceships { get; set; }
+        public DbSet<FileToDatabase> FileToDatabases { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
