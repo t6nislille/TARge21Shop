@@ -22,17 +22,83 @@ namespace TARge21Shop.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("TARge21Shop.Core.Domain.Spaceship.Spaceship", b =>
+            modelBuilder.Entity("TARge21Shop.Core.Domain.Car.Car", b =>
                 {
                     b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("BuiltDate")
+                    b.Property<int>("EnginePower")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("FuelConsumption")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("FuelType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Lenght")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("MaxSpeed")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Mileage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ProductionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CargoWeight")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Weight")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Width")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("TARge21Shop.Core.Domain.FileToDatabase", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("SpaceshipId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileToDatabase");
+                });
+
+            modelBuilder.Entity("TARge21Shop.Core.Domain.Spaceship", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("BuildOfDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -43,17 +109,15 @@ namespace TARge21Shop.Data.Migrations
                     b.Property<int>("EnginePower")
                         .HasColumnType("int");
 
-                    b.Property<int>("FullTripsCount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("LastMaintenance")
+                    b.Property<DateTime>("LaunchDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("MaidenLaunch")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MaintenanceCount")
+                    b.Property<int>("LiftUpToSpaceByTonn")
                         .HasColumnType("int");
+
+                    b.Property<string>("ModelType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime2");
@@ -62,16 +126,21 @@ namespace TARge21Shop.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Passengers")
-                        .HasColumnType("int");
+                    b.Property<string>("Passengers")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("PlaceOfBuild")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SpaceshipBuilder")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Spaceships");
+                    b.ToTable("Spaceship");
                 });
 #pragma warning restore 612, 618
         }
