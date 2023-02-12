@@ -2,7 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\TARge21Shop",
-    "\\TARge21Shop.ApplicationServices"
+    "\\TARge21Shop.ApplicationServices",
+    "\\TARge21Shop\\Controllers",
+    "\\TARge21Shop\\Models",
+    "\\TARge21Shop\\Views"
   ],
   "SelectedNode": "\\TARge21Shop.sln",
   "PreviewInSolutionExplorer": false

@@ -22,6 +22,30 @@ namespace TARge21Shop.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("TARge21Shop.Core.Domain.FileToApi", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ExistingFilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<Guid?>("RealEstateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RealEstateId");
+
+                    b.ToTable("FileToApis");
+                });
+
             modelBuilder.Entity("TARge21Shop.Core.Domain.FileToDatabase", b =>
                 {
                     b.Property<Guid>("Id")
@@ -151,6 +175,18 @@ namespace TARge21Shop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Spaceships");
+                });
+
+            modelBuilder.Entity("TARge21Shop.Core.Domain.FileToApi", b =>
+                {
+                    b.HasOne("TARge21Shop.Core.Domain.RealEstate", null)
+                        .WithMany("FileToApis")
+                        .HasForeignKey("RealEstateId");
+                });
+
+            modelBuilder.Entity("TARge21Shop.Core.Domain.RealEstate", b =>
+                {
+                    b.Navigation("FileToApis");
                 });
 #pragma warning restore 612, 618
         }

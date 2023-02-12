@@ -15,28 +15,18 @@ namespace TARge21Shop.ApplicationServices.Services
     public class RealEstatesServices : IRealEstatesServices
     {
         private readonly TARge21ShopContext _context;
+        private readonly IFilesServices _filesServices;
 
         public RealEstatesServices
             (
-                TARge21ShopContext context
+                TARge21ShopContext context,
+                IFilesServices filesServices
             )
         {
             _context = context;
+            _filesServices = filesServices;
         }
 
-        //public IEnumerable<RealEstate> GetAllRealEstates()
-        //{
-        //       var result = _context.RealEstates
-        //            .OrderByDescending(y => y.CreatedAt)
-        //            .Select(x => new RealEstate
-        //            {
-        //                Id = x.Id,
-        //                Price = x.Price,
-        //            });
-
-        //    return result;
-
-        //}
 
         public async Task<RealEstate> Create(RealEstateDto dto)
         {
@@ -56,6 +46,8 @@ namespace TARge21Shop.ApplicationServices.Services
             realEstate.RoomCount = dto.RoomCount;
             realEstate.ModifiedAt = DateTime.Now;
             realEstate.CreatedAt = DateTime.Now;
+            _filesServices.FilesToApi(dto, realEstate);
+            
 
             await _context.RealEstates.AddAsync(realEstate);
             await _context.SaveChangesAsync();

@@ -90,7 +90,7 @@ else
             </div>
         </div>
 
-        @*        <div class="form-group row">
+        <div class="form-group row">
         <label asp-for="Files" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-5">
         <div class="custom-file">
@@ -100,11 +100,12 @@ else
         </div>
         </div>
         <hr />
-        @foreach (var images in Model.Image)
+
+        @foreach (var images in Model.FileToApViewModels)
         {
-        <partial name="_Images" model="images" />
-        <input asp-action="removeImage" asp-controller="spaceships" asp-route-imageId="@images.ImageId" type="submit" class="btn btn-danger" value="Remove Image" />
-        }*@
+            <partial name="_Images" model="images" />
+            @*<input asp-action="removeImage" asp-controller="spaceships" asp-route-imageId="@images.ImageId" type="submit" class="btn btn-danger" value="Remove Image" />*@
+        }
 
         <hr />
 
@@ -122,7 +123,7 @@ else
     </form>
 </div>
 
-@*@section Scripts
+@section Scripts
     {
     <script>
         $(document).ready(function () {
@@ -138,4 +139,4 @@ else
             });
         });
     </script>
-}*@
+}
