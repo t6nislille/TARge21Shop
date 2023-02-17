@@ -1115,7 +1115,10 @@
         },
         "runtime": {
           "bin/placeholder/TARge21Shop.ApplicationServices.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "TARge21Shop.Core/1.0.0": {
         "type": "project",

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TARge21Shop.Core.Dto;
 using TARge21Shop.Core.ServiceInterface;
 using TARge21Shop.Data;
@@ -10,15 +11,18 @@ namespace TARge21Shop.Controllers
     {
         private readonly IRealEstatesServices _realEstatesServices;
         private readonly TARge21ShopContext _context;
+		private readonly IFilesServices _filesServices;
 
         public RealEstatesController
             (
                 IRealEstatesServices realEstatesServices,
-                TARge21ShopContext context
+                TARge21ShopContext context,
+				IFilesServices filesServices
             )
         {
             _realEstatesServices = realEstatesServices;
             _context = context;
+			_filesServices = filesServices;
         }
 
         [HttpGet]
@@ -89,30 +93,39 @@ namespace TARge21Shop.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Update(Guid id)
 		{
-			var realestate = await _realEstatesServices.GetAsync(id);
+			var realEstate = await _realEstatesServices.GetAsync(id);
 
-			if (realestate == null)
+			if (realEstate == null)
 			{
 				return NotFound();
 			}
 
-			var vm = new RealEstateCreateUpdateViewModel()
-			{
-				Id = realestate.Id,
-				Address = realestate.Address,
-				City = realestate.City,
-				Country = realestate.Country,
-				Size = realestate.Size,
-				Price = realestate.Price,
-				Floor = realestate.Floor,
-				Region = realestate.Region,
-				Phone = realestate.Phone,
-				Fax = realestate.Fax,
-				PostalCode = realestate.PostalCode,
-				RoomCount = realestate.RoomCount,
-				CreatedAt = realestate.CreatedAt,
-				ModifiedAt = realestate.ModifiedAt
-			};
+			var images = await _context.FileToApis
+				.Where(x => x.RealEstateId == id)
+				.Select(y => new FileToApiViewModel
+				{
+					FilePath = y.ExistingFilePath,
+					ImageId = y.Id
+				}).ToArrayAsync();
+
+			var vm = new RealEstateCreateUpdateViewModel();
+			
+				vm.Id = realEstate.Id;
+				vm.Address = realEstate.Address;
+				vm.City = realEstate.City;
+				vm.Country = realEstate.Country;
+				vm.Size = realEstate.Size;
+				vm.Price = realEstate.Price;
+				vm.Floor = realEstate.Floor;
+				vm.Region = realEstate.Region;
+				vm.Phone = realEstate.Phone;
+				vm.Fax = realEstate.Fax;
+				vm.PostalCode = realEstate.PostalCode;
+				vm.RoomCount = realEstate.RoomCount;
+				vm.CreatedAt = realEstate.CreatedAt;
+				vm.ModifiedAt = realEstate.ModifiedAt;
+				vm.FileToApViewModels.AddRange(images);
+			
 
 			return View("CreateUpdate", vm);
 		}
@@ -135,8 +148,14 @@ namespace TARge21Shop.Controllers
 				Fax = vm.Fax,
 				PostalCode = vm.PostalCode,
 				RoomCount = vm.RoomCount,
-				CreatedAt = vm.CreatedAt,
-				ModifiedAt = vm.ModifiedAt
+				Files = vm.Files,
+				FileToApiDtos = vm.FileToApViewModels
+					.Select(x => new FileToApiDto
+					{
+						Id = x.ImageId,
+						ExistingFilePath = x.FilePath,
+						RealEstateId = x.RealEstateId,
+					}).ToArray()
 			};
 
 			var result = await _realEstatesServices.Update(dto);
@@ -153,30 +172,39 @@ namespace TARge21Shop.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Details(Guid id)
 		{
-			var realestate = await _realEstatesServices.GetAsync(id);
+			var realEstate = await _realEstatesServices.GetAsync(id);
 
-			if (realestate == null)
+			if (realEstate == null)
 			{
 				return NotFound();
 			}
 
-			var vm = new RealEstateDetailsViewModel()
-			{
-				Id = realestate.Id,
-				Address = realestate.Address,
-				City = realestate.City,
-				Country = realestate.Country,
-				Size = realestate.Size,
-				Price = realestate.Price,
-				Floor = realestate.Floor,
-				Region = realestate.Region,
-				Phone = realestate.Phone,
-				Fax = realestate.Fax,
-				PostalCode = realestate.PostalCode,
-				RoomCount = realestate.RoomCount,
-				CreatedAt = realestate.CreatedAt,
-				ModifiedAt = realestate.ModifiedAt
-			};
+			var images = await _context.FileToApis
+				.Where(x => x.RealEstateId == id)
+				.Select(y => new FileToApiViewModel
+				{
+					FilePath = y.ExistingFilePath,
+					ImageId = y.Id
+				}).ToArrayAsync();
+
+			var vm = new RealEstateDetailsViewModel();
+			
+				vm.Id = realEstate.Id;
+				vm.Address = realEstate.Address;
+				vm.City = realEstate.City;
+				vm.Country = realEstate.Country;
+				vm.Size = realEstate.Size;
+				vm.Price = realEstate.Price;
+				vm.Floor = realEstate.Floor;
+				vm.Region = realEstate.Region;
+				vm.Phone = realEstate.Phone;
+				vm.Fax = realEstate.Fax;
+				vm.PostalCode = realEstate.PostalCode;
+				vm.RoomCount = realEstate.RoomCount;
+				vm.CreatedAt = realEstate.CreatedAt;
+				vm.ModifiedAt = realEstate.ModifiedAt;
+				vm.FileToApiViewModels.AddRange(images);
+			
 
 			return View(vm);
 		}
@@ -185,30 +213,37 @@ namespace TARge21Shop.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Delete(Guid id)
 		{
-			var realestate = await _realEstatesServices.GetAsync(id);
+			var realEstate = await _realEstatesServices.GetAsync(id);
 
-			if (realestate == null)
+			if (realEstate == null)
 			{
 				return NotFound();
 			}
 
-			var vm = new RealEstateDeleteViewModel()
-			{
-				Id = realestate.Id,
-				Address = realestate.Address,
-				City = realestate.City,
-				Country = realestate.Country,
-				Size = realestate.Size,
-				Price = realestate.Price,
-				Floor = realestate.Floor,
-				Region = realestate.Region,
-				Phone = realestate.Phone,
-				Fax = realestate.Fax,
-				PostalCode = realestate.PostalCode,
-				RoomCount = realestate.RoomCount,
-				CreatedAt = realestate.CreatedAt,
-				ModifiedAt = realestate.ModifiedAt
-			};
+			var images = await _context.FileToApis
+				.Where(x => x.RealEstateId == id)
+				.Select(y => new FileToApiViewModel
+				{
+					FilePath = y.ExistingFilePath,
+					ImageId = y.Id
+				}).ToArrayAsync();
+
+			var vm = new RealEstateDeleteViewModel();
+			
+				vm.Id = realEstate.Id;
+				vm.Address = realEstate.Address;
+				vm.City = realEstate.City;
+				vm.Country = realEstate.Country;
+				vm.Size = realEstate.Size;
+				vm.Price = realEstate.Price;
+				vm.Floor = realEstate.Floor;
+				vm.Region = realEstate.Region;
+				vm.Phone = realEstate.Phone;
+				vm.Fax = realEstate.Fax;
+				vm.PostalCode = realEstate.PostalCode;
+				vm.RoomCount = realEstate.RoomCount;
+				vm.FileToApiViewModels.AddRange(images);
+			
 
 			return View(vm);
 		}
@@ -217,14 +252,33 @@ namespace TARge21Shop.Controllers
 		[HttpPost]
 		public async Task<IActionResult> DeleteConfirmation(Guid id)
 		{
-			var realestateId = await _realEstatesServices.Delete(id);
+			var realEstateId = await _realEstatesServices.Delete(id);
 
-			if (realestateId == null)
+			if (realEstateId == null)
 			{
 				return RedirectToAction(nameof(Index));
 			}
 
 			return RedirectToAction(nameof(Index));
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> RemoveImage(FileToApiViewModel vm)
+		{
+            var dto = new FileToApiDto()
+			{
+				Id = vm.ImageId
+			};
+
+			var image = await _filesServices.RemoveImageFromApi(dto);
+
+			if (image == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			return RedirectToAction(nameof(Index));
+        }
+		
 	}
 }

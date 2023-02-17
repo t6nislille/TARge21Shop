@@ -76,14 +76,12 @@
             @Html.DisplayFor(model => model.ModifiedAt)
         </div>
 
-        @* @foreach (var images in Model.Image)
+        @foreach (var images in Model.FileToApiViewModels)
         {
             <partial name="_Images" model="images" />
-        } *@
-
+        } 
 
     </dl>
-
     <a asp-action="Index" asp-controller="RealEstates" class="btn btn-primary">Back</a>
 
 </div>
