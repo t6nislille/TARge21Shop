@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "SiKq1sjYFDxl1+iKQ+MSDJiR8j2rcPk94Q9XJ6jOjP4=",
+  "Hash": "Jp7Gr7lcmnGNthiyw3sNFCAweok06cyTp+5IfFmGxmg=",
   "Source": "TARge21Shop",
   "BasePath": "_content/TARge21Shop",
   "Mode": "Default",
@@ -1069,6 +1069,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "C:\\Users\\tonis\\Desktop\\Targe21Shop\\TARge21Shop\\wwwroot\\multipleFileUpload\\428dd27e-5cbc-4e45-ad7b-0bd4c7234afb_house1.jpg",
+      "SourceId": "TARge21Shop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\tonis\\Desktop\\Targe21Shop\\TARge21Shop\\wwwroot\\",
+      "BasePath": "_content/TARge21Shop",
+      "RelativePath": "multipleFileUpload/428dd27e-5cbc-4e45-ad7b-0bd4c7234afb_house1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\multipleFileUpload\\428dd27e-5cbc-4e45-ad7b-0bd4c7234afb_house1.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\tonis\\Desktop\\Targe21Shop\\TARge21Shop\\wwwroot\\multipleFileUpload\\786657fd-3f5b-4333-a4a6-95c1e62fcbba_house1.jpg",
+      "SourceId": "TARge21Shop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\tonis\\Desktop\\Targe21Shop\\TARge21Shop\\wwwroot\\",
+      "BasePath": "_content/TARge21Shop",
+      "RelativePath": "multipleFileUpload/786657fd-3f5b-4333-a4a6-95c1e62fcbba_house1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\multipleFileUpload\\786657fd-3f5b-4333-a4a6-95c1e62fcbba_house1.jpg"
     }
   ]
 }
