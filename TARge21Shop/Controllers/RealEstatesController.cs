@@ -149,6 +149,8 @@ namespace TARge21Shop.Controllers
 				PostalCode = vm.PostalCode,
 				RoomCount = vm.RoomCount,
 				Files = vm.Files,
+				CreatedAt = vm.CreatedAt,
+				ModifiedAt = vm.ModifiedAt,
 				FileToApiDtos = vm.FileToApViewModels
 					.Select(x => new FileToApiDto
 					{
@@ -242,6 +244,8 @@ namespace TARge21Shop.Controllers
 				vm.Fax = realEstate.Fax;
 				vm.PostalCode = realEstate.PostalCode;
 				vm.RoomCount = realEstate.RoomCount;
+				vm.CreatedAt = realEstate.CreatedAt;
+				vm.ModifiedAt = realEstate.ModifiedAt;
 				vm.FileToApiViewModels.AddRange(images);
 			
 

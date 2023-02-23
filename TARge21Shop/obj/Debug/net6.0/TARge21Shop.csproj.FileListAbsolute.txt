@@ -202,3 +202,8 @@ C:\Users\tonis\Desktop\Targe21Shop\TARge21Shop\obj\Debug\net6.0\refint\TARge21Sh
 C:\Users\tonis\Desktop\Targe21Shop\TARge21Shop\obj\Debug\net6.0\TARge21Shop.pdb
 C:\Users\tonis\Desktop\Targe21Shop\TARge21Shop\obj\Debug\net6.0\TARge21Shop.genruntimeconfig.cache
 C:\Users\tonis\Desktop\Targe21Shop\TARge21Shop\obj\Debug\net6.0\ref\TARge21Shop.dll
+C:\Users\tonis\Desktop\Targe21Shop\TARge21Shop\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\tonis\Desktop\Targe21Shop\TARge21Shop\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\tonis\Desktop\Targe21Shop\TARge21Shop\bin\Debug\net6.0\Microsoft.Extensions.PlatformAbstractions.dll
+C:\Users\tonis\Desktop\Targe21Shop\TARge21Shop\bin\Debug\net6.0\Nancy.dll
+C:\Users\tonis\Desktop\Targe21Shop\TARge21Shop\bin\Debug\net6.0\Newtonsoft.Json.dll
