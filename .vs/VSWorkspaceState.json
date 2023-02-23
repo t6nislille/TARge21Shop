@@ -2,12 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\TARge21Shop",
+    "\\TARge21Shop.ApplicationServices",
     "\\TARge21Shop.ApplicationServices\\Services",
-    "\\TARge21Shop.Core\\ServiceInterface",
-    "\\TARge21Shop.Data",
-    "\\TARge21Shop\\Models\\RealEstate",
-    "\\TARge21Shop\\Views\\RealEstates",
-    "\\TARge21Shop\\wwwroot"
+    "\\TARge21Shop.Core",
+    "\\TARge21Shop.Data"
   ],
   "SelectedNode": "\\TARge21Shop.sln",
   "PreviewInSolutionExplorer": false
