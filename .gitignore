@@ -12,6 +12,7 @@
 *.sqlite
 *.pdb
 *.dll
+*.cache
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
