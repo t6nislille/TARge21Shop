@@ -11,10 +11,10 @@ else
 
 <div>
     <form method="post" enctype="multipart/form-data">
-        <input asp-for="Id" type="hidden" />              
+        <input asp-for="Id" type="hidden" />
 
         <div class="form-group row">
-            <label asp-for="Name" class="col-sm-2 col-form-label"></label> 
+            <label asp-for="Name" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
                 <input asp-for="Name" class="form-control" />
             </div>
@@ -101,14 +101,21 @@ else
         </div>
         <hr />
 
+        @foreach (var images in Model.Image)
+        {
+        <partial name="_Images" model="images" />
+        <div class="form-group row col-sm-4 offset-2" style="padding: 12px">
+            <input asp-action="removeImage" asp-controller="cars" asp-route-imageId="@images.ImageId" type="submit" class="btn btn-danger" value="Remove Image" />
+        </div>
+        }
 
         @if (Model.Id.HasValue)
         {
-                <input asp-action="Update" asp-controller="cars" type="submit" class="btn btn-primary" value="Update" />
+        <input asp-action="Update" asp-controller="cars" type="submit" class="btn btn-primary" value="Update" />
         }
         else
         {
-                <input asp-action="Create" asp-controller="cars" type="submit" class="btn btn-primary" value="Create" />
+        <input asp-action="Create" asp-controller="cars" type="submit" class="btn btn-primary" value="Create" />
         }
 
         <a asp-action="index" class="btn btn-primary">Back</a>
