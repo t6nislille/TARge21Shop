@@ -5,10 +5,10 @@ namespace TARge21Shop.Core.Dto.WeatherDtos
     public class HeadlineDto
     {
         [JsonPropertyName("EffectiveDate")]
-        public DateTime Date { get; set; }
+        public DateTime EffectiveDate { get; set; }
 
         [JsonPropertyName("EffectiveEpochDate")]
-        public int EpochDate { get; set; }
+        public int EffectiveEpochDate { get; set; }
 
         [JsonPropertyName("Severity")]
         public int Severity { get; set; }
