@@ -13,11 +13,6 @@ namespace TARge21Shop.Data
         public DbSet<FileToDatabase> FileToDatabases { get; set; }
         public DbSet<RealEstate> RealEstates { get; set; }
         public DbSet<FileToApi> FileToApis { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-
-            optionsBuilder.UseSqlServer("Data Source=laptop-chli9elt\\t6nis;Initial Catalog=Targe21_Shop;Integrated Security=True");
-        }
     }
 
 
