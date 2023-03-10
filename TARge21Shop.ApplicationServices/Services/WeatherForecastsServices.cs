@@ -16,7 +16,7 @@ namespace TARge21Shop.ApplicationServices.Services
             {
                 string json = client.DownloadString(url);
 
-                WeatherRootDto weatherInfo = (new JavaScriptSerializer()).Deserialize<WeatherRootDto>(json);
+                WeatherRootDto weatherInfo = new JavaScriptSerializer().Deserialize<WeatherRootDto>(json);
 
                 dto.EffectiveDate = weatherInfo.Headline.EffectiveDate;
                 dto.EffectiveEpochDate = weatherInfo.Headline.EffectiveEpochDate;
@@ -28,9 +28,6 @@ namespace TARge21Shop.ApplicationServices.Services
 
                 dto.MobileLink = weatherInfo.Headline.MobileLink;
                 dto.Link = weatherInfo.Headline.Link;
-
-                //dto.DailyForecastsDay = weatherInfo.DailyForecasts[0];
-                //dto.DailyForecastsEpochDate = weatherInfo.DailyForecasts[0].EpochDate;
 
                 dto.TempMinValue = weatherInfo.DailyForecasts[0].Temperature.Minimum.Value;
                 dto.TempMinUnit = weatherInfo.DailyForecasts[0].Temperature.Minimum.Unit;

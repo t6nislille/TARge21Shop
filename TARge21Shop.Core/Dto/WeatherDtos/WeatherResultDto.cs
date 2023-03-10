@@ -14,8 +14,6 @@
         public string MobileLink { get; set; }
         public string Link { get; set; }
 
-        public DateTime DailyForecastsDay { get; set; }
-        public int DailyForecastsEpochDate { get; set; }
 
         public double TempMinValue { get; set; }
         public string TempMinUnit { get; set; }

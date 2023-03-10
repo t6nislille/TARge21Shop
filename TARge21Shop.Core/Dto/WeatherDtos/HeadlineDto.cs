@@ -14,10 +14,10 @@ namespace TARge21Shop.Core.Dto.WeatherDtos
         public int Severity { get; set; }
 
         [JsonPropertyName("Text")]
-        public int Text { get; set; }
+        public string Text { get; set; }
 
         [JsonPropertyName("Category")]
-        public int Category { get; set; }
+        public string Category { get; set; }
 
         [JsonPropertyName("EndDate")]
         public DateTime EndDate { get; set; }
@@ -31,9 +31,5 @@ namespace TARge21Shop.Core.Dto.WeatherDtos
         [JsonPropertyName("Link")]
         public string Link { get; set; }
 
-        public Temperature Temperature { get; set; }
-        public Day Day { get; set; }
-        public Night night { get; set; }
-        public List<string> Sources { get; set; }
     }
 }
