@@ -10,7 +10,7 @@ namespace TARge21Shop.ApplicationServices.Services
         public  async Task<WeatherResultDto> WeatherDetail(WeatherResultDto dto)
         {
             string apikey = "8eDECvxiN7UjAN31cXKlLeXLawl84Cn3";
-            var url = $"http://dataservice.accuweather.com/forecasts/v1/daily/1day/";
+            var url = $"http://dataservice.accuweather.com/forecasts/v1/daily/1day/127964?apikey=8eDECvxiN7UjAN31cXKlLeXLawl84Cn3&metric=true";
 
             using (WebClient client = new WebClient())
             {

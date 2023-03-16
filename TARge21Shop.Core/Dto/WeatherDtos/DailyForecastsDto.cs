@@ -20,7 +20,7 @@ namespace TARge21Shop.Core.Dto.WeatherDtos
 
     public class Day
     {
-        [JsonPropertyName("Day")]
+        [JsonPropertyName("Icon")]
         public int Icon { get; set; }
 
 
