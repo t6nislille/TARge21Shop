@@ -7,7 +7,7 @@ namespace TARge21Shop.ApplicationServices.Services
 {
     public class WeatherForecastsServices : IWeatherForecastServices
     {
-        public  async Task<WeatherResultDto> WeatherDetail(WeatherResultDto dto)
+        public async Task<WeatherResultDto> WeatherDetail(WeatherResultDto dto)
         {
             string apikey = "8eDECvxiN7UjAN31cXKlLeXLawl84Cn3";
             var url = $"http://dataservice.accuweather.com/forecasts/v1/daily/1day/127964?apikey=8eDECvxiN7UjAN31cXKlLeXLawl84Cn3&metric=true";
@@ -51,6 +51,28 @@ namespace TARge21Shop.ApplicationServices.Services
 
             }
 
+            return dto;
+        }
+
+        public async Task<OpenWeatherResultsDto> OpenWeatherDetail(OpenWeatherResultsDto dto)
+        {
+            string apikey = "7c159c1147da6aa6503e89af99458a7d";
+            var url = $"https://api.openweathermap.org/data/2.5/weather?q=Liiva&appid=7c159c1147da6aa6503e89af99458a7d";
+
+            using (WebClient client = new WebClient())
+            {
+                string json = client.DownloadString(url);
+
+                OpenWeatherDto OpenWeatherResults = new JavaScriptSerializer().Deserialize<OpenWeatherDto>(json);
+
+                dto.Name = OpenWeatherResults.Name;
+                dto.Temperature = Math.Round(OpenWeatherResults.Main.Temp);
+                dto.TempFeelsLike = Math.Round(OpenWeatherResults.Main.FeelsLike);
+                dto.Humidity = OpenWeatherResults.Main.Humidity;
+                dto.Pressure = OpenWeatherResults.Main.Pressure;
+                dto.WindSpeed = OpenWeatherResults.Wind.WindSpeed;
+                dto.Description = OpenWeatherResults.Weather[0].Description;
+            }
             return dto;
         }
     }
