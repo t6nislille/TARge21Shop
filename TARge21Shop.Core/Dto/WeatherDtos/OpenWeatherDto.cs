@@ -46,8 +46,8 @@ namespace TARge21Shop.Core.Dto.WeatherDtos
 
     public class Winds
     {
-        [JsonPropertyName("speed")]
-        public double Speed { get; set; }
+        [JsonPropertyName("wind_speed")]
+        public double WindSpeed { get; set; }
 
     }
 }
