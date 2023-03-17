@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace TARge21Shop.Core.Dto.WeatherDtos
 {
@@ -35,7 +30,7 @@ namespace TARge21Shop.Core.Dto.WeatherDtos
         public double Temp { get; set; }
 
         [JsonPropertyName("feels_like")]
-        public double FeelsLike { get; set; }
+        public double Feels_Like { get; set; }
 
         [JsonPropertyName("pressure")]
         public int Pressure { get; set; }
@@ -46,8 +41,8 @@ namespace TARge21Shop.Core.Dto.WeatherDtos
 
     public class Winds
     {
-        [JsonPropertyName("wind_speed")]
-        public double WindSpeed { get; set; }
+        [JsonPropertyName("speed")]
+        public double Speed { get; set; }
 
     }
 }

@@ -56,22 +56,21 @@ namespace TARge21Shop.ApplicationServices.Services
 
         public async Task<OpenWeatherResultsDto> OpenWeatherDetail(OpenWeatherResultsDto dto)
         {
-            string apikey = "7c159c1147da6aa6503e89af99458a7d";
             var url = $"https://api.openweathermap.org/data/2.5/weather?q=Liiva&appid=7c159c1147da6aa6503e89af99458a7d";
 
             using (WebClient client = new WebClient())
             {
                 string json = client.DownloadString(url);
 
-                OpenWeatherDto OpenWeatherResults = new JavaScriptSerializer().Deserialize<OpenWeatherDto>(json);
+                var result = new JavaScriptSerializer().Deserialize<OpenWeatherDto>(json);
 
-                dto.Name = OpenWeatherResults.Name;
-                dto.Temperature = Math.Round(OpenWeatherResults.Main.Temp);
-                dto.TempFeelsLike = Math.Round(OpenWeatherResults.Main.FeelsLike);
-                dto.Humidity = OpenWeatherResults.Main.Humidity;
-                dto.Pressure = OpenWeatherResults.Main.Pressure;
-                dto.WindSpeed = OpenWeatherResults.Wind.WindSpeed;
-                dto.Description = OpenWeatherResults.Weather[0].Description;
+                dto.Name = result.Name;
+                dto.Temperature = Math.Round(result.Main.Temp - 272.15, 2);
+                dto.Feels_Like = Math.Round(result.Main.Feels_Like - 272.15, 2);
+                dto.Humidity = result.Main.Humidity;
+                dto.Pressure = result.Main.Pressure;
+                dto.Speed = result.Wind.Speed;
+                dto.Description = result.Weather[0].Description;
             }
             return dto;
         }

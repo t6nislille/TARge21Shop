@@ -95,10 +95,10 @@ namespace TARge21Shop.Controllers
 
             vm.Name = dto.Name;
             vm.Temperature = dto.Temperature;
-            vm.TempFeelsLike = dto.TempFeelsLike;
+            vm.Feels_Like = dto.Feels_Like;
             vm.Humidity = dto.Humidity;
             vm.Pressure = dto.Pressure;
-            vm.WindSpeed = dto.WindSpeed;
+            vm.Speed = dto.Speed;
             vm.Description = dto.Description;
     
             return View(vm);
