@@ -95,7 +95,7 @@ namespace TARge21Shop.SpaceshipTest
             Spaceship spaceship = new Spaceship();
 
 
-            SpaceshipDto dto = new MockSpaceshipData();
+            SpaceshipDto dto = MockSpaceshipData();
 
             spaceship.Id = Guid.Parse("6e8285f6-5205-46d4-b12e-c522f797f378");
             spaceship.Name = "asd";
@@ -115,7 +115,7 @@ namespace TARge21Shop.SpaceshipTest
 
             await Svc<ISpaceshipsServices>().Update(dto);
 
-            Assert.Equal(result.Id, guid);
+            Assert.Equal(spaceship.Id, guid);
             Assert.DoesNotMatch(spaceship.Name, dto.Name);
             Assert.DoesNotMatch(spaceship.EnginePower.ToString(), dto.EnginePower.ToString());
             Assert.Equal(spaceship.Crew, dto.Crew);
